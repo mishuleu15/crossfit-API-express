@@ -1,9 +1,11 @@
 import React from 'react';
 import Card from './Card';
 
+import Wrapper from '../assets/wrappers/Cards';
+
 const Cards = ({ data }) => {
   return (
-    <div>
+    <Wrapper>
       {data ? (
         data?.map((element) => {
           return <Card key={element.id} {...element} />;
@@ -11,7 +13,7 @@ const Cards = ({ data }) => {
       ) : (
         <h1>Loading ...</h1>
       )}
-    </div>
+    </Wrapper>
   );
 };
 

@@ -18,7 +18,7 @@ const Home = () => {
 
   return (
     <div className='App'>
-      <h1>testing</h1>
+      <h1>CrossFit Workout of the Day</h1>
       <Cards data={getData} />
     </div>
   );
