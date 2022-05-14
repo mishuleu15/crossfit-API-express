@@ -34,6 +34,7 @@ const getOneWorkout = (req, res) => {
 
 const createNewWorkout = (req, res) => {
   const { body } = req;
+  console.log(body);
   if (
     !body.name ||
     !body.mode ||
