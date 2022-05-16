@@ -3,6 +3,8 @@ import Wrapper from '../assets/wrappers/Card';
 
 import axios from 'axios';
 
+import { useAppContext } from '../Context/appContext';
+
 const Card = ({
   id,
   name,
@@ -14,6 +16,8 @@ const Card = ({
   editMode,
   data,
 }) => {
+  const { getTraining } = useAppContext();
+
   const handleChangeDelete = async () => {
     console.log('clicked');
     try {
@@ -36,6 +40,7 @@ const Card = ({
   const handleChangeUpdate = () => {
     const res = prefillFormData();
     editMode(true, id, res);
+    getTraining(id);
   };
 
   return (
@@ -45,25 +50,31 @@ const Card = ({
         <div className='section'>
           <h2>{mode}</h2>
           <ul>
-            {equipment?.map((equip, idx) => {
-              return <li key={idx}>{equip}</li>;
-            })}
+            {typeof equipment === 'object'
+              ? equipment?.map((equip, idx) => {
+                  return <li key={idx}>{equip}</li>;
+                })
+              : equipment}
           </ul>
         </div>
         <div className='section'>
           <h2>Exercises</h2>
           <ul>
-            {exercises?.map((exe, idx) => {
-              return <li key={idx}>{exe}</li>;
-            })}
+            {typeof exercises === 'object'
+              ? exercises?.map((exe, idx) => {
+                  return <li key={idx}>{exe}</li>;
+                })
+              : exercises}
           </ul>
         </div>
         <div className='section'>
           <h2>Trainer Tips</h2>
           <ul>
-            {trainerTips?.map((tips, idx) => {
-              return <li key={idx}>{tips}</li>;
-            })}
+            {typeof trainerTips === 'object'
+              ? trainerTips?.map((tips, idx) => {
+                  return <li key={idx}>{tips}</li>;
+                })
+              : trainerTips}
           </ul>
         </div>
       </div>

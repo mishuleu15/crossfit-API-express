@@ -81,6 +81,7 @@ const updateOneWorkout = (req, res) => {
   }
   try {
     const updatedWorkout = workoutService.updateOneWorkout(workoutId, body);
+    console.log(updateOneWorkout);
     res.send({ status: 'OK', data: updatedWorkout });
   } catch (error) {
     res
