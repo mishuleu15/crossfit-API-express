@@ -1,98 +1,64 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Wrapper from '../assets/wrappers/AddWorkout';
 
-import axios from 'axios';
-import { useAppContext, initialState } from '../Context/appContext';
+import { useAppContext } from '../Context/appContext';
 
-const AddWorkout = ({ dataChange, editModeOn, setEditModeOn, getId, data }) => {
-  const { setupTraining } = useAppContext();
+const AddWorkout = ({ editModeOn, setEditModeOn, getId }) => {
+  const {
+    setupTraining,
+    postTraining,
+    getAllTrainings,
+    handleChange,
+    name,
+    mode,
+    equipment,
+    exercises,
+    trainerTips,
+  } = useAppContext();
 
-  const state = useAppContext();
+  let values = { name, mode, equipment, exercises, trainerTips };
 
-  const [values, setValues] = useState(initialState);
+  // const handleChange = (e) => {
+  //   setValues({ ...values, [e.target.name]: e.target.value });
+  // };
 
-  const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+  const handleTrainingInput = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    handleChange({ name, value });
   };
-
-  console.log('wtf', state);
-  console.log('xxx', values);
-
-  const [submitting, setSubmitting] = useState(false);
-  // const [name, setName] = useState('');
-  // const [mode, setMode] = useState('');
-  // const [equipment, setEquipment] = useState([]);
-  // const [exercises, setExercises] = useState([]);
-  // const [trainerTips, setTrainerTips] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitting(true);
+    getAllTrainings();
     try {
       if (editModeOn) {
         setupTraining({ values, getId });
+        setEditModeOn(false);
+        return;
       }
+      postTraining({ values });
+      clearForm();
     } catch (error) {
       console.log(error.message);
-      setSubmitting(false);
     }
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setSubmitting(true);
-  //   try {
-  //     if (editModeOn) {
-  //       const res = await axios.patch(
-  //         `http://localhost:4000/api/v1/workouts/${getId}`,
-  //         {
-  //           name,
-  //           mode,
-  //           equipment,
-  //           exercises,
-  //           trainerTips,
-  //         }
-  //       );
-  //       dataChange(res);
-  //       clearForm();
-  //       setEditModeOn(false);
-  //     }
-  //     const res = await axios.post('http://localhost:4000/api/v1/workouts/', {
-  //       name,
-  //       mode,
-  //       equipment,
-  //       exercises,
-  //       trainerTips,
-  //     });
-  //     clearForm();
-  //     dataChange(res);
-  //     setSubmitting(false);
-  //   } catch (error) {
-  //     console.log(error.message);
-  //     setSubmitting(false);
-  //   }
-  // };
-
-  // const clearForm = () => {
-  //   setName('');
-  //   setMode('');
-  //   setEquipment([]);
-  //   setExercises([]);
-  //   setTrainerTips([]);
-  // };
+  const clearForm = () => {
+    values = {};
+  };
 
   return (
     <Wrapper>
-      {submitting && <p>Submitting Form...</p>}
       {editModeOn && <p>Editing...</p>}
       <form onSubmit={handleSubmit}>
         <label>
           <p>Name:</p>
           <input
             type='text'
-            value={(values.name !== '' ? values.name : state.name) || ''}
+            value={name || ''}
             name='name'
-            onChange={handleChange}
+            onChange={handleTrainingInput}
           />
         </label>
 
@@ -100,22 +66,18 @@ const AddWorkout = ({ dataChange, editModeOn, setEditModeOn, getId, data }) => {
           <p>Mode:</p>
           <input
             type='text'
-            value={(values.mode !== '' ? values.mode : state.mode) || ''}
+            value={mode || ''}
             name='mode'
-            onChange={handleChange}
+            onChange={handleTrainingInput}
           />
         </label>
         <label>
           <p>Equipment:</p>
           <input
             type='text'
-            value={
-              (values.equipment.length !== 0
-                ? values.equipment
-                : state.equipment) || ''
-            }
+            value={equipment || ''}
             name='equipment'
-            onChange={handleChange}
+            onChange={handleTrainingInput}
           />
         </label>
         <label>
@@ -123,13 +85,9 @@ const AddWorkout = ({ dataChange, editModeOn, setEditModeOn, getId, data }) => {
           <textarea
             rows='6'
             cols='21'
-            value={
-              (values.exercises.length !== 0
-                ? values.exercises
-                : state.exercises) || ''
-            }
+            value={exercises || ''}
             name='exercises'
-            onChange={handleChange}
+            onChange={handleTrainingInput}
           />
         </label>
         <label>
@@ -137,19 +95,14 @@ const AddWorkout = ({ dataChange, editModeOn, setEditModeOn, getId, data }) => {
           <textarea
             rows='6'
             cols='21'
-            value={
-              (values.trainerTips.length !== 0
-                ? values.trainerTips
-                : state.trainerTips) || ''
-            }
+            value={trainerTips || ''}
             name='trainerTips'
-            onChange={handleChange}
+            onChange={handleTrainingInput}
           />
         </label>
 
         <button type='submit'>{editModeOn ? 'Change' : 'Submit'}</button>
       </form>
-      {/* <button onClick={() => test()}></button> */}
     </Wrapper>
   );
 };

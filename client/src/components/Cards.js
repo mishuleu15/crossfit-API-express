@@ -1,22 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
 import Card from './Card';
+
+import { useAppContext } from '../Context/appContext';
 
 import Wrapper from '../assets/wrappers/Cards';
 
-const Cards = ({ data, dataChange, editMode }) => {
+const Cards = ({ editMode }) => {
+  const { getAllTrainings, trainings } = useAppContext();
+
+  useEffect(() => {
+    getAllTrainings();
+  }, []);
+
   return (
     <Wrapper>
-      {data ? (
-        data?.map((element) => {
-          return (
-            <Card
-              key={element.id}
-              {...element}
-              dataChange={dataChange}
-              editMode={editMode}
-              data={data}
-            />
-          );
+      {trainings ? (
+        trainings?.map((element) => {
+          return <Card key={element.id} {...element} editMode={editMode} />;
         })
       ) : (
         <h1>Loading ...</h1>

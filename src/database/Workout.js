@@ -71,7 +71,7 @@ const getOneWorkout = (workoutId) => {
   }
 };
 
-const createNewWorkout = (newWorkout) => {
+const createNewWorkout = async (newWorkout) => {
   try {
     const isAlreadyAdded =
       DB.workouts.findIndex((workout) => workout.name === newWorkout.name) > -1;
@@ -82,14 +82,14 @@ const createNewWorkout = (newWorkout) => {
       };
     }
     DB.workouts.push(newWorkout);
-    saveToDatabase(DB);
+    await saveToDatabase(DB);
     return newWorkout;
   } catch (error) {
     throw { status: error?.status || 500, message: error?.message || error };
   }
 };
 
-const updateOneWorkout = (workoutId, changes) => {
+const updateOneWorkout = async (workoutId, changes) => {
   try {
     const isAlreadyAdded =
       DB.workouts.findIndex((workout) => workout.name === changes.name) > -1;
@@ -114,14 +114,14 @@ const updateOneWorkout = (workoutId, changes) => {
       updatedAt: new Date().toLocaleString('en-US', { timeZone: 'UTC' }),
     };
     DB.workouts[indexForUpdate] = updatedWorkout;
-    saveToDatabase(DB);
+    await saveToDatabase(DB);
     return updatedWorkout;
   } catch (error) {
     throw { status: error?.status || 500, message: error?.message || error };
   }
 };
 
-const deleteOneWorkout = (workoutId) => {
+const deleteOneWorkout = async (workoutId) => {
   try {
     const indexForDeletion = DB.workouts.findIndex(
       (workout) => workout.id === workoutId
@@ -133,7 +133,7 @@ const deleteOneWorkout = (workoutId) => {
       };
     }
     DB.workouts.splice(indexForDeletion, 1);
-    saveToDatabase(DB);
+    await saveToDatabase(DB);
   } catch (error) {
     throw { status: error?.status || 500, message: error?.message || error };
   }

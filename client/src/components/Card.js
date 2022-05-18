@@ -1,7 +1,4 @@
-import React from 'react';
 import Wrapper from '../assets/wrappers/Card';
-
-import axios from 'axios';
 
 import { useAppContext } from '../Context/appContext';
 
@@ -12,35 +9,19 @@ const Card = ({
   equipment,
   exercises,
   trainerTips,
-  dataChange,
   editMode,
-  data,
 }) => {
-  const { getTraining } = useAppContext();
+  const { getTraining, getAllTrainings, deleteTraining } = useAppContext();
 
-  const handleChangeDelete = async () => {
-    console.log('clicked');
-    try {
-      const res = await axios.delete(
-        `http://localhost:4000/api/v1/workouts/${id}`
-      );
-      dataChange(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const prefillFormData = async () => {
-    const res = await data.find((ele) => {
-      return ele.id === id;
-    });
-    return res;
+  const handleChangeDelete = () => {
+    deleteTraining(id);
+    getAllTrainings();
   };
 
   const handleChangeUpdate = () => {
-    const res = prefillFormData();
-    editMode(true, id, res);
+    editMode(true, id);
     getTraining(id);
+    getAllTrainings();
   };
 
   return (

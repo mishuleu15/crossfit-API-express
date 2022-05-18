@@ -1,49 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { fetchData } from './utils/fetchData';
+import React, { useState, useEffect } from 'react';
 
 import Cards from './components/Cards';
 import AddWorkout from './components/AddWorkout';
 
 import Wrapper from './assets/wrappers/Home';
 
+import { useAppContext } from './Context/appContext';
+
 const Home = () => {
-  const [getData, setGetData] = useState('');
-  const [addedData, setAddedData] = useState('');
+  console.log('home');
   const [editModeOn, setEditModeOn] = useState(false);
   const [getId, setGetId] = useState(null);
-  const [objToUpdate, setObjToUpdate] = useState({});
 
-  const getDataApi = async () => {
-    const data = await fetchData();
-    setGetData(data);
-  };
-
-  const dataChange = (param) => {
-    setAddedData(param);
-  };
-
-  const editMode = (param, id, res) => {
+  const editMode = (param, id) => {
     setEditModeOn(param);
     setGetId(id);
-    setObjToUpdate(res);
   };
-
-  useEffect(() => {
-    getDataApi();
-  }, [addedData]);
 
   return (
     <Wrapper>
       <h1>CrossFit Workout of the Day</h1>
       <div className='container'>
         <AddWorkout
-          dataChange={dataChange}
           editModeOn={editModeOn}
           setEditModeOn={setEditModeOn}
-          data={objToUpdate}
           getId={getId}
         />
-        <Cards data={getData} dataChange={dataChange} editMode={editMode} />
+        <Cards editMode={editMode} />
       </div>
     </Wrapper>
   );
