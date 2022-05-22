@@ -59,7 +59,7 @@ const cache = apicache.middleware;
  *                       example: "Some error message"
  */
 
-router.get('/', cache('2 minutes'), getAllWorkouts);
+router.get('/', getAllWorkouts);
 
 router.get('/:workoutId', getOneWorkout);
 

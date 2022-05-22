@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import Cards from './components/Cards';
 import AddWorkout from './components/AddWorkout';
 
 import Wrapper from './assets/wrappers/Home';
 
-import { useAppContext } from './Context/appContext';
+import { useDispatch } from 'react-redux';
+import { getPosts } from './redux/actions/actions';
 
 const Home = () => {
-  console.log('home');
+  const dispatch = useDispatch();
+  const containerRef = useRef(null);
+
   const [editModeOn, setEditModeOn] = useState(false);
   const [getId, setGetId] = useState(null);
 
@@ -17,13 +20,25 @@ const Home = () => {
     setGetId(id);
   };
 
+  const toTop = () => {
+    return containerRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+  if (getId) {
+    toTop();
+  }
+
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [dispatch]);
+
   return (
     <Wrapper>
       <h1>CrossFit Workout of the Day</h1>
-      <div className='container'>
+      <div className='container' ref={containerRef}>
         <AddWorkout
           editModeOn={editModeOn}
           setEditModeOn={setEditModeOn}
+          setGetId={setGetId}
           getId={getId}
         />
         <Cards editMode={editMode} />

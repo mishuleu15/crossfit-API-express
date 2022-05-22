@@ -10,24 +10,18 @@ const getAllWorkouts = (filterParams) => {
   }
 };
 
-const getOneWorkout = (workoutId) => {
+const getOneWorkout = async (workoutId) => {
   try {
-    const workout = Workout.getOneWorkout(workoutId);
+    const workout = await Workout.getOneWorkout(workoutId);
     return workout;
   } catch (error) {
     throw error;
   }
 };
 
-const createNewWorkout = (newWorkout) => {
-  const workoutToInsert = {
-    ...newWorkout,
-    id: uuid(),
-    createdAt: new Date().toLocaleString('en-US', { timeZone: 'UTC' }),
-    updatedAt: new Date().toLocaleString('en-US', { timeZone: 'UTC' }),
-  };
+const createNewWorkout = async (newWorkout) => {
   try {
-    const createdWorkout = Workout.createNewWorkout(workoutToInsert);
+    const createdWorkout = Workout.createNewWorkout(newWorkout);
     return createdWorkout;
   } catch (error) {
     throw error;

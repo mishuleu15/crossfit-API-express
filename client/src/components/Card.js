@@ -1,9 +1,11 @@
 import Wrapper from '../assets/wrappers/Card';
 
-import { useAppContext } from '../Context/appContext';
+import { useDispatch } from 'react-redux';
+
+import { deletePost } from '../redux/actions/actions';
 
 const Card = ({
-  id,
+  _id,
   name,
   mode,
   equipment,
@@ -11,21 +13,25 @@ const Card = ({
   trainerTips,
   editMode,
 }) => {
-  const { getTraining, getAllTrainings, deleteTraining } = useAppContext();
-
+  const dispatch = useDispatch();
   const handleChangeDelete = () => {
-    deleteTraining(id);
-    getAllTrainings();
+    dispatch(deletePost(_id));
   };
 
   const handleChangeUpdate = () => {
-    editMode(true, id);
-    getTraining(id);
-    getAllTrainings();
+    editMode(true, _id);
   };
 
   return (
     <Wrapper>
+      <div className='btns'>
+        <button className='updateBtn' onClick={handleChangeUpdate}>
+          Edit Workout
+        </button>
+        <button className='deleteBtn' onClick={handleChangeDelete}>
+          X
+        </button>
+      </div>
       <h2 className='title'>{name}</h2>
       <div className='container'>
         <div className='section'>
@@ -59,8 +65,6 @@ const Card = ({
           </ul>
         </div>
       </div>
-      <button onClick={handleChangeDelete}>Delete</button>
-      <button onClick={handleChangeUpdate}>Update</button>
     </Wrapper>
   );
 };

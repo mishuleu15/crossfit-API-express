@@ -1,23 +1,16 @@
-import React, { useEffect } from 'react';
-
 import Card from './Card';
-
-import { useAppContext } from '../Context/appContext';
 
 import Wrapper from '../assets/wrappers/Cards';
 
+import { useSelector } from 'react-redux';
+
 const Cards = ({ editMode }) => {
-  const { getAllTrainings, trainings } = useAppContext();
-
-  useEffect(() => {
-    getAllTrainings();
-  }, []);
-
+  const workouts = useSelector((state) => state);
   return (
     <Wrapper>
-      {trainings ? (
-        trainings?.map((element) => {
-          return <Card key={element.id} {...element} editMode={editMode} />;
+      {workouts ? (
+        workouts?.map((element) => {
+          return <Card key={element._id} {...element} editMode={editMode} />;
         })
       ) : (
         <h1>Loading ...</h1>

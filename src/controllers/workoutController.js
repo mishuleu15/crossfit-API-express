@@ -1,10 +1,11 @@
 const workoutService = require('../services/workoutService');
 
-const getAllWorkouts = (req, res) => {
-  const { mode } = req.query;
+const Training = require('../models/Training');
+
+const getAllWorkouts = async (req, res) => {
   try {
-    const allWorkouts = workoutService.getAllWorkouts({ mode });
-    res.send({ status: 'OK', data: allWorkouts });
+    const workouts = await Training.find();
+    res.status(200).json(workouts);
   } catch (error) {
     res
       .status(error?.status || 500)
@@ -12,7 +13,7 @@ const getAllWorkouts = (req, res) => {
   }
 };
 
-const getOneWorkout = (req, res) => {
+const getOneWorkout = async (req, res) => {
   const {
     params: { workoutId },
   } = req;
@@ -23,7 +24,7 @@ const getOneWorkout = (req, res) => {
     });
   }
   try {
-    const workout = workoutService.getOneWorkout(workoutId);
+    const workout = await Training.findOne({ workoutId });
     res.send({ status: 'OK', data: workout });
   } catch (error) {
     res
@@ -32,16 +33,11 @@ const getOneWorkout = (req, res) => {
   }
 };
 
-const createNewWorkout = (req, res) => {
-  const { body } = req;
-  console.log(body);
-  if (
-    !body.name ||
-    !body.mode ||
-    !body.equipment ||
-    !body.exercises ||
-    !body.trainerTips
-  ) {
+const createNewWorkout = async (req, res) => {
+  const { name, mode, equipment, exercises, trainerTips } = req.body;
+  const workout = req.body;
+
+  if (!name || !mode || !equipment || !exercises || !trainerTips) {
     res.status(400).send({
       status: 'FAILED',
       data: {
@@ -51,24 +47,23 @@ const createNewWorkout = (req, res) => {
     });
     return;
   }
-  const newWorkout = {
-    name: body.name,
-    mode: body.mode,
-    equipment: body.equipment,
-    exercises: body.exercises,
-    trainerTips: body.trainerTips,
-  };
+
+  const newWorkout = new Training({
+    ...workout,
+  });
+
   try {
-    const createdWorkout = workoutService.createNewWorkout(newWorkout);
-    res.status(201).send({ status: 'OK', data: createdWorkout });
+    await newWorkout.save();
+
+    res.status(201).json(newWorkout);
   } catch (error) {
     res
-      .status(error?.status || 500)
-      .send({ status: 'FAILED', data: { error: error?.message || error } });
+      .status(error.status || 500)
+      .send({ status: 'FAILED', data: { error: error.message || error } });
   }
 };
 
-const updateOneWorkout = (req, res) => {
+const updateOneWorkout = async (req, res) => {
   const {
     body,
     params: { workoutId },
@@ -80,7 +75,9 @@ const updateOneWorkout = (req, res) => {
     });
   }
   try {
-    const updatedWorkout = workoutService.updateOneWorkout(workoutId, body);
+    const updatedWorkout = await Training.findByIdAndUpdate(workoutId, body, {
+      new: true,
+    });
     res.send({ status: 'OK', data: updatedWorkout });
   } catch (error) {
     res
@@ -89,10 +86,9 @@ const updateOneWorkout = (req, res) => {
   }
 };
 
-const deleteOneWorkout = (req, res) => {
-  const {
-    params: { workoutId },
-  } = req;
+const deleteOneWorkout = async (req, res) => {
+  const { workoutId } = req.params;
+
   if (!workoutId) {
     res.status(400).send({
       status: 'FAILED',
@@ -100,8 +96,9 @@ const deleteOneWorkout = (req, res) => {
     });
   }
   try {
-    workoutService.deleteOneWorkout(workoutId);
-    res.status(204).send({ status: 'OK' });
+    await Training.findByIdAndRemove(workoutId);
+    const workouts = await Training.find();
+    res.status(200).json(workouts);
   } catch (error) {
     res
       .status(error?.status || 500)

@@ -11,8 +11,27 @@ const Wrapper = styled.section`
   height: 40rem;
   margin: 4rem auto;
 
+  form label input[type='text'] {
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid #888888;
+  }
+
+  form label input[type='text']:focus {
+    outline: none;
+  }
+
+  .valid {
+    color: #3cb371;
+  }
+
+  .invalid {
+    color: red;
+  }
+
   textarea {
     display: block;
+    padding: 4px;
   }
 
   textarea:last-child {

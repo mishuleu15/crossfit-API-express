@@ -1,51 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Wrapper from '../assets/wrappers/AddWorkout';
 
-import { useAppContext } from '../Context/appContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { createPost, updatePost } from '../redux/actions/actions';
 
-const AddWorkout = ({ editModeOn, setEditModeOn, getId }) => {
-  const {
-    setupTraining,
-    postTraining,
-    getAllTrainings,
-    handleChange,
-    name,
-    mode,
-    equipment,
-    exercises,
-    trainerTips,
-  } = useAppContext();
+const AddWorkout = ({ editModeOn, setEditModeOn, getId, setGetId }) => {
+  const [postWorkout, setPostWorkout] = useState({
+    name: '',
+    mode: '',
+    equipment: '',
+    exercises: '',
+    trainerTips: '',
+  });
 
-  let values = { name, mode, equipment, exercises, trainerTips };
+  const workout = useSelector((state) =>
+    getId ? state.find((w) => w._id === getId) : null
+  );
 
-  // const handleChange = (e) => {
-  //   setValues({ ...values, [e.target.name]: e.target.value });
-  // };
+  useEffect(() => {
+    if (workout) setPostWorkout(workout);
+  }, [workout]);
 
-  const handleTrainingInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    handleChange({ name, value });
-  };
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    getAllTrainings();
-    try {
-      if (editModeOn) {
-        setupTraining({ values, getId });
-        setEditModeOn(false);
-        return;
-      }
-      postTraining({ values });
-      clearForm();
-    } catch (error) {
-      console.log(error.message);
+
+    if (getId) {
+      dispatch(updatePost(getId, { ...postWorkout }));
+      setEditModeOn(false);
+    } else {
+      dispatch(createPost({ ...postWorkout }));
     }
+    clear();
   };
 
-  const clearForm = () => {
-    values = {};
+  const clear = () => {
+    setGetId(null);
+    setPostWorkout({
+      name: '',
+      mode: '',
+      equipment: '',
+      exercises: '',
+      trainerTips: '',
+    });
   };
 
   return (
@@ -56,9 +54,15 @@ const AddWorkout = ({ editModeOn, setEditModeOn, getId }) => {
           <p>Name:</p>
           <input
             type='text'
-            value={name || ''}
+            className={postWorkout.name.length < 3 ? 'invalid' : 'valid'}
+            value={postWorkout.name || ''}
             name='name'
-            onChange={handleTrainingInput}
+            onChange={(e) =>
+              setPostWorkout({
+                ...postWorkout,
+                name: e.target.value,
+              })
+            }
           />
         </label>
 
@@ -66,18 +70,29 @@ const AddWorkout = ({ editModeOn, setEditModeOn, getId }) => {
           <p>Mode:</p>
           <input
             type='text'
-            value={mode || ''}
+            className={postWorkout.mode.length < 3 ? 'invalid' : 'valid'}
+            value={postWorkout.mode || ''}
             name='mode'
-            onChange={handleTrainingInput}
+            onChange={(e) =>
+              setPostWorkout({
+                ...postWorkout,
+                mode: e.target.value,
+              })
+            }
           />
         </label>
         <label>
           <p>Equipment:</p>
           <input
             type='text'
-            value={equipment || ''}
+            value={postWorkout.equipment || ''}
             name='equipment'
-            onChange={handleTrainingInput}
+            onChange={(e) =>
+              setPostWorkout({
+                ...postWorkout,
+                equipment: e.target.value,
+              })
+            }
           />
         </label>
         <label>
@@ -85,9 +100,14 @@ const AddWorkout = ({ editModeOn, setEditModeOn, getId }) => {
           <textarea
             rows='6'
             cols='21'
-            value={exercises || ''}
+            value={postWorkout.exercises || ''}
             name='exercises'
-            onChange={handleTrainingInput}
+            onChange={(e) =>
+              setPostWorkout({
+                ...postWorkout,
+                exercises: e.target.value,
+              })
+            }
           />
         </label>
         <label>
@@ -95,13 +115,18 @@ const AddWorkout = ({ editModeOn, setEditModeOn, getId }) => {
           <textarea
             rows='6'
             cols='21'
-            value={trainerTips || ''}
+            value={postWorkout.trainerTips || ''}
             name='trainerTips'
-            onChange={handleTrainingInput}
+            onChange={(e) =>
+              setPostWorkout({
+                ...postWorkout,
+                trainerTips: e.target.value,
+              })
+            }
           />
         </label>
 
-        <button type='submit'>{editModeOn ? 'Change' : 'Submit'}</button>
+        <button type='submit'>{editModeOn ? 'Edit' : 'Submit'}</button>
       </form>
     </Wrapper>
   );
