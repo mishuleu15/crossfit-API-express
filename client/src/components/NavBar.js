@@ -1,7 +1,14 @@
 import React from 'react';
 import Wrapper from '../assets/wrappers/NavBar';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  function handleClick() {
+    navigate('/auth');
+  }
+
   return (
     <Wrapper>
       <div className='container'>
@@ -9,7 +16,7 @@ const Navbar = () => {
           <span className='first'>Workouts</span>{' '}
           <span className='second'>Planner</span>
         </h2>
-        <button>Logout</button>
+        <button onClick={handleClick}>Register</button>
       </div>
     </Wrapper>
   );

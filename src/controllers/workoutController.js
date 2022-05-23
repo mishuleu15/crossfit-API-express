@@ -1,5 +1,3 @@
-const workoutService = require('../services/workoutService');
-
 const Training = require('../models/Training');
 
 const getAllWorkouts = async (req, res) => {

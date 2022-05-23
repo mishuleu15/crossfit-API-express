@@ -2,9 +2,10 @@ import { FETCH_ALL, CREATE, UPDATE, DELETE } from '../constants/actionTypes';
 import axios from 'axios';
 
 export const getPosts = () => async (dispatch) => {
+  console.log('wtf');
   try {
     const { data } = await axios.get('http://localhost:4000/api/v1/workouts');
-
+    console.log({ data });
     dispatch({ type: FETCH_ALL, payload: data });
   } catch (error) {
     console.log(error.message);
