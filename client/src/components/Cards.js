@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 
 const Cards = ({ editMode }) => {
   const workouts = useSelector((state) => state);
+  console.log('cards', workouts);
   return (
     <Wrapper>
       {workouts ? (

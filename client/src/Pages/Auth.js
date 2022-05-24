@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Wrapper from '../assets/wrappers/Auth';
 
+import { useDispatch } from 'react-redux';
+import { registerUser } from './../redux/actions/actions';
+
+import { useNavigate } from 'react-router-dom';
+
 const Auth = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    navigate('/');
+    dispatch(registerUser({ name, email, password }));
   };
 
   return (
@@ -15,14 +29,9 @@ const Auth = () => {
           <input
             type='text'
             className={''}
-            value={''}
+            value={name}
             name='name'
-            // onChange={(e) =>
-            //   setPostWorkout({
-            //     ...postWorkout,
-            //     name: e.target.value,
-            //   })
-            // }
+            onChange={(e) => setName(e.target.value)}
           />
         </label>
 
@@ -31,14 +40,9 @@ const Auth = () => {
           <input
             type='email'
             className={''}
-            value={''}
+            value={email}
             name='email'
-            // onChange={(e) =>
-            //   setPostWorkout({
-            //     ...postWorkout,
-            //     name: e.target.value,
-            //   })
-            // }
+            onChange={(e) => setEmail(e.target.value)}
           />
         </label>
         <label>
@@ -46,14 +50,9 @@ const Auth = () => {
           <input
             type='password'
             className={''}
-            value={''}
+            value={password}
             name='password'
-            // onChange={(e) =>
-            //   setPostWorkout({
-            //     ...postWorkout,
-            //     name: e.target.value,
-            //   })
-            // }
+            onChange={(e) => setPassword(e.target.value)}
           />
         </label>
         <button type='submit'>Register</button>

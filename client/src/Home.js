@@ -7,8 +7,12 @@ import Wrapper from './assets/wrappers/Home';
 
 import { useDispatch } from 'react-redux';
 import { getPosts } from './redux/actions/actions';
+import { useSelector } from 'react-redux';
 
 const Home = () => {
+  const workouts = useSelector((state) => state);
+  console.log({ workouts });
+
   const dispatch = useDispatch();
   const containerRef = useRef(null);
 

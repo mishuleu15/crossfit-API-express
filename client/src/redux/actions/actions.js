@@ -1,11 +1,31 @@
-import { FETCH_ALL, CREATE, UPDATE, DELETE } from '../constants/actionTypes';
+import {
+  FETCH_ALL_REQUEST,
+  FETCH_ALL_SUCCESS,
+  FETCH_ALL_FAIL,
+  FETCH_ALL,
+  CREATE,
+  UPDATE,
+  DELETE,
+  REGISTER,
+  LOGOUT_USER,
+} from '../constants/actionTypes';
 import axios from 'axios';
+
+const addUserToLocalStorage = ({ user, token }) => {
+  localStorage.setItem('user', JSON.stringify(user));
+  localStorage.setItem('token', token);
+};
+
+const removeUserFromLocalStorage = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+};
 
 export const getPosts = () => async (dispatch) => {
   console.log('wtf');
   try {
     const { data } = await axios.get('http://localhost:4000/api/v1/workouts');
-    console.log({ data });
+
     dispatch({ type: FETCH_ALL, payload: data });
   } catch (error) {
     console.log(error.message);
@@ -54,4 +74,29 @@ export const deletePost = (getId) => async (dispatch) => {
   } catch (error) {
     console.log(error.message);
   }
+};
+
+export const registerUser = (user) => async (dispatch) => {
+  const { name, email, password } = user;
+  try {
+    const {
+      data: { data },
+    } = await axios.post(`http://localhost:4000/api/v1/auth`, {
+      name,
+      email,
+      password,
+    });
+    const { user, token } = data;
+
+    addUserToLocalStorage({ user, token });
+
+    dispatch({ type: REGISTER, payload: data });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const logoutUser = () => async (dispatch) => {
+  dispatch({ type: LOGOUT_USER });
+  removeUserFromLocalStorage();
 };

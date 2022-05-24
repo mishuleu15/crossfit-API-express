@@ -8,7 +8,7 @@ const Wrapper = styled.section`
   backdrop-filter: blur(7.8px);
   -webkit-backdrop-filter: blur(7.8px);
   position: relative;
-  top: -5rem;
+  /* top: -5rem; */
   padding: 1rem;
   z-index: 20;
   border-radius: 0 0 15px 15px;
@@ -23,8 +23,24 @@ const Wrapper = styled.section`
     justify-content: space-between;
   }
 
+  .user {
+    display: flex;
+  }
+
+  .registerBtn {
+    display: flex;
+  }
+
   h2 {
     text-transform: uppercase;
+  }
+
+  h3 {
+    text-transform: capitalize;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    align-self: center;
+    margin-right: 1.5rem;
   }
 
   .first {
