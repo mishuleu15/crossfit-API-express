@@ -5,7 +5,7 @@ import Wrapper from '../assets/wrappers/Cards';
 import { useSelector } from 'react-redux';
 
 const Cards = ({ editMode }) => {
-  const workouts = useSelector((state) => state);
+  const workouts = useSelector((state) => state.workouts);
   console.log('cards', workouts);
   return (
     <Wrapper>

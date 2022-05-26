@@ -22,12 +22,11 @@ const Wrapper = styled.section`
     display: flex;
     justify-content: space-between;
   }
-
-  .user {
-    display: flex;
+  .logoContainer {
+    cursor: pointer;
   }
 
-  .registerBtn {
+  .user {
     display: flex;
   }
 

@@ -8,6 +8,7 @@ import {
   DELETE,
   REGISTER,
   LOGOUT_USER,
+  SIGN_UP_ERROR,
 } from '../constants/actionTypes';
 import axios from 'axios';
 
@@ -76,8 +77,8 @@ export const deletePost = (getId) => async (dispatch) => {
   }
 };
 
-export const registerUser = (user) => async (dispatch) => {
-  const { name, email, password } = user;
+export const registerUser = (user, navigate) => async (dispatch) => {
+  const { name, email, password, confirmPassword } = user;
   try {
     const {
       data: { data },
@@ -85,14 +86,17 @@ export const registerUser = (user) => async (dispatch) => {
       name,
       email,
       password,
+      confirmPassword,
     });
-    const { user, token } = data;
 
+    const { user, token } = data;
     addUserToLocalStorage({ user, token });
+    navigate('/');
 
     dispatch({ type: REGISTER, payload: data });
   } catch (error) {
-    console.log(error.message);
+    dispatch({ type: SIGN_UP_ERROR, payload: error.response.data.message });
+    console.log(error.response.data.message);
   }
 };
 

@@ -1,10 +1,10 @@
 const User = require('../models/User');
 
 const register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, confirmPassword } = req.body;
 
   if (!name || !email || !password) {
-    send.status(400).send({
+    res.status(400).send({
       status: 'FAILED',
       data: {
         error: 'Please provide the name, email and password.',
@@ -21,6 +21,9 @@ const register = async (req, res) => {
       },
     });
   }
+
+  if (password !== confirmPassword)
+    return res.status(400).json({ message: "Passwords don't match" });
 
   const user = await User.create({ name, email, password });
 

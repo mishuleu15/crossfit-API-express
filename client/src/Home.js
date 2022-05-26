@@ -10,7 +10,7 @@ import { getPosts } from './redux/actions/actions';
 import { useSelector } from 'react-redux';
 
 const Home = () => {
-  const workouts = useSelector((state) => state);
+  const workouts = useSelector((state) => state.auth.message);
   console.log({ workouts });
 
   const dispatch = useDispatch();

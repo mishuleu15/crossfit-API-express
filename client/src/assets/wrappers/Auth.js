@@ -55,6 +55,15 @@ const Wrapper = styled.section`
     transform: translateY(1px);
     box-shadow: 0px 1px 5px #888888;
   }
+
+  Button:last-child {
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: none;
+    font-size: 1rem;
+    font-weight: bold;
+    color: black;
+    text-transform: capitalize;
+  }
 `;
 
 export default Wrapper;

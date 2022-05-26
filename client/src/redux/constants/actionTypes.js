@@ -7,6 +7,8 @@ const UPDATE = 'UPDATE';
 const DELETE = 'DELETE';
 const REGISTER = 'REGISTER';
 const LOGOUT_USER = 'LOGOUT_USER';
+const SIGN_UP_ERROR = 'SIGN_UP_ERROR';
+
 export {
   FETCH_ALL_REQUEST,
   FETCH_ALL_SUCCESS,
@@ -17,4 +19,5 @@ export {
   DELETE,
   REGISTER,
   LOGOUT_USER,
+  SIGN_UP_ERROR,
 };
