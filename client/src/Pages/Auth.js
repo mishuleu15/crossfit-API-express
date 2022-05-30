@@ -1,32 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Alert from '../components/Alert';
 
 import Wrapper from '../assets/wrappers/Auth';
 import { Button } from '@material-ui/core';
 
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { registerUser } from './../redux/actions/actions';
+import { registerUser, signIn } from './../redux/actions/actions';
 
 import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
-  const alertMessage = useSelector((state) => state.auth.message);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  let alertMessage = useSelector((state) => state?.auth?.message);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isSignup, setIsSignup] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+
   const [confirmedPasswordMatch, setConfirmedPasswordMatch] = useState(true);
+  const [duplicateUser, setDuplicateUser] = useState(true);
+
+  // console.log(typeof toString(alertMessage));
+
+  console.log(isSignup);
+
+  if (password.length < 6) {
+    alertMessage = ' Passwords must be at least 6 characters long';
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (toString(alertMessage).localeCompare('User Already exists.')) {
+      setDuplicateUser(false);
+    }
+
     if (password !== confirmPassword) {
       setConfirmedPasswordMatch(false);
     } else {
@@ -37,33 +50,46 @@ const Auth = () => {
       dispatch(
         registerUser({ name, email, password, confirmPassword }, navigate)
       );
+    } else {
+      console.log('PLM');
+      dispatch(signIn(email, navigate));
     }
-  };
-
-  const handleShowPassword = () => {
-    return setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   const switchMode = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
-    setShowPassword(false);
   };
+
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      setConfirmedPasswordMatch(true);
+      setDuplicateUser(true);
+    }, 3000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [confirmedPasswordMatch, duplicateUser]);
 
   return (
     <Wrapper>
-      {!confirmedPasswordMatch && <Alert alertMessage={alertMessage} />}
+      {(!confirmedPasswordMatch || !duplicateUser) && (
+        <Alert alertMessage={alertMessage} />
+      )}
       <h1>Auth</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          <p>Name:</p>
-          <input
-            type='text'
-            className={''}
-            value={name}
-            name='name'
-            onChange={(e) => setName(e.target.value)}
-          />
-        </label>
+        {isSignup && (
+          <label>
+            <p>Name:</p>
+            <input
+              type='text'
+              className={''}
+              value={name}
+              name='name'
+              required
+              onChange={(e) => setName(e.target.value)}
+            />
+          </label>
+        )}
 
         <label>
           <p>Email:</p>
@@ -72,17 +98,17 @@ const Auth = () => {
             className={''}
             value={email}
             name='email'
+            required
             onChange={(e) => setEmail(e.target.value)}
           />
         </label>
         <label>
           <p>Password:</p>
           <input
-            type={showPassword ? 'text' : 'password'}
-            className={''}
+            type={'password'}
             value={password}
             name='password'
-            handleShowPassword={handleShowPassword}
+            required
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
@@ -94,6 +120,7 @@ const Auth = () => {
               label='Repeat Password'
               value={confirmPassword}
               type='password'
+              required
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </label>

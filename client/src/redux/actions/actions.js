@@ -25,7 +25,7 @@ const removeUserFromLocalStorage = () => {
 export const getPosts = () => async (dispatch) => {
   console.log('wtf');
   try {
-    const { data } = await axios.get('http://localhost:4000/api/v1/workouts');
+    const { data } = await axios.get('http://localhost:3001/api/v1/workouts');
 
     dispatch({ type: FETCH_ALL, payload: data });
   } catch (error) {
@@ -36,7 +36,7 @@ export const getPosts = () => async (dispatch) => {
 export const createPost = (post) => async (dispatch) => {
   const { equipment, exercises, mode, name, trainerTips } = post;
   try {
-    const { data } = await axios.post(`http://localhost:4000/api/v1/workouts`, {
+    const { data } = await axios.post(`http://localhost:3001/api/v1/workouts`, {
       equipment,
       exercises,
       mode,
@@ -55,7 +55,7 @@ export const updatePost = (getId, post) => async (dispatch) => {
     const {
       data: { data },
     } = await axios.patch(
-      `http://localhost:4000/api/v1/workouts/${getId}`,
+      `http://localhost:3001/api/v1/workouts/${getId}`,
       post
     );
 
@@ -68,7 +68,7 @@ export const updatePost = (getId, post) => async (dispatch) => {
 export const deletePost = (getId) => async (dispatch) => {
   try {
     const { data } = await axios.delete(
-      `http://localhost:4000/api/v1/workouts/${getId}`
+      `http://localhost:3001/api/v1/workouts/${getId}`
     );
 
     dispatch({ type: DELETE, payload: data });
@@ -82,7 +82,7 @@ export const registerUser = (user, navigate) => async (dispatch) => {
   try {
     const {
       data: { data },
-    } = await axios.post(`http://localhost:4000/api/v1/auth`, {
+    } = await axios.post(`http://localhost:3001/api/v1/auth`, {
       name,
       email,
       password,
@@ -96,7 +96,23 @@ export const registerUser = (user, navigate) => async (dispatch) => {
     dispatch({ type: REGISTER, payload: data });
   } catch (error) {
     dispatch({ type: SIGN_UP_ERROR, payload: error.response.data.message });
-    console.log(error.response.data.message);
+  }
+};
+
+export const signIn = (email, navigate) => async (dispatch) => {
+  console.log({ email });
+  try {
+    const { data } = await axios.post(`http://localhost:3001/api/v1/auth`, {
+      email,
+    });
+
+    const { user, token } = data;
+    addUserToLocalStorage({ user, token });
+    navigate('/');
+
+    dispatch({ type: REGISTER, payload: data });
+  } catch (error) {
+    console.log(error);
   }
 };
 

@@ -12,18 +12,16 @@ const register = async (req, res) => {
     });
   }
 
+  if (password !== confirmPassword)
+    return res.status(400).json({ message: "Passwords don't match" });
+
   const userAlreadyExists = await User.findOne({ email });
 
   if (userAlreadyExists) {
-    res.status(400).send({
-      data: {
-        message: 'User already exists.',
-      },
+    return res.status(400).json({
+      message: 'User already exists.',
     });
   }
-
-  if (password !== confirmPassword)
-    return res.status(400).json({ message: "Passwords don't match" });
 
   const user = await User.create({ name, email, password });
 
@@ -37,4 +35,27 @@ const register = async (req, res) => {
   });
 };
 
-module.exports = { register };
+const signIn = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ email }).select('+password');
+
+    if (!existingUser)
+      return res.status(404).json({ message: "User doesn't exist" });
+
+    const isPasswordCorrect = await existingUser.comparePassword(password);
+
+    if (!isPasswordCorrect)
+      return res.status(400).json({ message: 'Invalid Credentials' });
+
+    const token = existingUser.createJWT();
+    existingUser.password = undefined;
+
+    res.status(200).json({ userLoggedIn: existingUser, token });
+  } catch (error) {
+    res.status(500).json({ message: 'Something went wrong' });
+  }
+};
+
+module.exports = { register, signIn };

@@ -10,7 +10,7 @@ const app = express();
 // db and authenticateUser
 const connectDB = require('../src/db/connect');
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 
