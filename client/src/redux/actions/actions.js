@@ -99,14 +99,16 @@ export const registerUser = (user, navigate) => async (dispatch) => {
   }
 };
 
-export const signIn = (email, navigate) => async (dispatch) => {
-  console.log({ email });
+export const signIn = (user, navigate) => async (dispatch) => {
+  const { email, password } = user;
   try {
     const { data } = await axios.post(`http://localhost:3001/api/v1/auth`, {
       email,
+      password,
     });
 
-    const { user, token } = data;
+    const { userLoggedIn: user, token } = data;
+    console.log(data);
     addUserToLocalStorage({ user, token });
     navigate('/');
 

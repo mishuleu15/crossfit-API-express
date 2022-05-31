@@ -51,8 +51,7 @@ const Auth = () => {
         registerUser({ name, email, password, confirmPassword }, navigate)
       );
     } else {
-      console.log('PLM');
-      dispatch(signIn(email, navigate));
+      dispatch(signIn({ email, password }, navigate));
     }
   };
 

@@ -14,7 +14,7 @@ const AddWorkout = ({ editModeOn, setEditModeOn, getId, setGetId }) => {
   });
 
   const workout = useSelector((state) =>
-    getId ? state.find((w) => w._id === getId) : null
+    getId ? state?.workouts.find((w) => w._id === getId) : null
   );
 
   useEffect(() => {
