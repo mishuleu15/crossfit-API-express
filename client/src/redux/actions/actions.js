@@ -35,18 +35,31 @@ export const getPosts = () => async (dispatch) => {
 
 export const createPost = (post) => async (dispatch) => {
   const { equipment, exercises, mode, name, trainerTips } = post;
+  const token = localStorage.getItem('token');
+
+  let config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
   try {
-    const { data } = await axios.post(`http://localhost:3001/api/v1/workouts`, {
-      equipment,
-      exercises,
-      mode,
-      name,
-      trainerTips,
-    });
+    const { data } = await axios.post(
+      `http://localhost:3001/api/v1/workouts`,
+      {
+        equipment,
+        exercises,
+        mode,
+        name,
+        trainerTips,
+      },
+      config
+    );
 
     dispatch({ type: CREATE, payload: data });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -61,7 +74,7 @@ export const updatePost = (getId, post) => async (dispatch) => {
 
     dispatch({ type: UPDATE, payload: data });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -108,7 +121,7 @@ export const signIn = (user, navigate) => async (dispatch) => {
     });
 
     const { userLoggedIn: user, token } = data;
-    console.log(data);
+
     addUserToLocalStorage({ user, token });
     navigate('/');
 

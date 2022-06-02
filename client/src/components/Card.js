@@ -12,10 +12,18 @@ const Card = ({
   exercises,
   trainerTips,
   editMode,
+  createdBy,
 }) => {
   const dispatch = useDispatch();
+
+  const { _id: userId } = JSON.parse(localStorage.getItem('user'));
+
   const handleChangeDelete = () => {
-    dispatch(deletePost(_id));
+    if (createdBy === userId) {
+      dispatch(deletePost(_id));
+    } else {
+      console.log('Get the fuck out');
+    }
   };
 
   const handleChangeUpdate = () => {

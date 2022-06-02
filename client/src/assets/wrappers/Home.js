@@ -5,6 +5,11 @@ const Wrapper = styled.section`
     display: grid;
     grid-template-columns: 1fr 3fr;
   }
+
+  .containerAfterLogged {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
   h1 {
     font-size: 2rem;
     text-align: center;

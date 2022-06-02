@@ -1,6 +1,8 @@
 const express = require('express');
 const apicache = require('apicache');
 
+const authenticateUser = require('../../middleware/auth.js');
+
 const {
   getAllWorkouts,
   getOneWorkout,
@@ -65,7 +67,7 @@ router.get('/:workoutId', getOneWorkout);
 
 router.get('/:workoutId/records', recordController.getRecordForWorkout);
 
-router.post('/', createNewWorkout);
+router.post('/', authenticateUser, createNewWorkout);
 
 router.patch('/:workoutId', updateOneWorkout);
 

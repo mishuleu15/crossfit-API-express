@@ -46,6 +46,8 @@ const createNewWorkout = async (req, res) => {
     return;
   }
 
+  req.body.createdBy = req.user.userId;
+
   const newWorkout = new Training({
     ...workout,
   });

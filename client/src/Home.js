@@ -7,11 +7,9 @@ import Wrapper from './assets/wrappers/Home';
 
 import { useDispatch } from 'react-redux';
 import { getPosts } from './redux/actions/actions';
-import { useSelector } from 'react-redux';
 
 const Home = () => {
-  const workouts = useSelector((state) => state.auth.message);
-  console.log({ workouts });
+  const userLoggedIn = JSON.parse(localStorage.getItem('user'));
 
   const dispatch = useDispatch();
   const containerRef = useRef(null);
@@ -38,13 +36,20 @@ const Home = () => {
   return (
     <Wrapper>
       <h1>CrossFit Workout of the Day</h1>
-      <div className='container' ref={containerRef}>
-        <AddWorkout
-          editModeOn={editModeOn}
-          setEditModeOn={setEditModeOn}
-          setGetId={setGetId}
-          getId={getId}
-        />
+
+      <div
+        className={userLoggedIn ? 'container' : 'containerAfterLogged'}
+        ref={containerRef}
+      >
+        {userLoggedIn && (
+          <AddWorkout
+            editModeOn={editModeOn}
+            setEditModeOn={setEditModeOn}
+            setGetId={setGetId}
+            getId={getId}
+          />
+        )}
+
         <Cards editMode={editMode} />
       </div>
     </Wrapper>
