@@ -9,6 +9,10 @@ const Wrapper = styled.section`
   margin-bottom: 2rem;
   border-radius: 15px;
 
+  .warningMessage {
+    text-align: center;
+  }
+
   h2 {
     text-align: center;
     color: #2f4f4f;

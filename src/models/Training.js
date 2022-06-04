@@ -19,6 +19,13 @@ const TrainingSchema = new mongoose.Schema(
     equipment: [String],
     exercises: [String],
     trainerTips: [String],
+    userCreator: {
+      type: String,
+      required: [true, 'Please provide name'],
+      minlength: 3,
+      maxlength: 20,
+      trim: true,
+    },
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: 'User',

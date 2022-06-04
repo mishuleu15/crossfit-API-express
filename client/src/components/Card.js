@@ -1,4 +1,7 @@
+import React, { useState, useEffect } from 'react';
 import Wrapper from '../assets/wrappers/Card';
+
+import Alert from '../components/Alert';
 
 import { useDispatch } from 'react-redux';
 
@@ -13,25 +16,43 @@ const Card = ({
   trainerTips,
   editMode,
   createdBy,
+  userCreator,
 }) => {
   const dispatch = useDispatch();
+  const [message, setMessage] = useState('');
 
-  const { _id: userId } = JSON.parse(localStorage.getItem('user'));
+  const { _id: userId } = JSON.parse(localStorage.getItem('user')) || '';
 
   const handleChangeDelete = () => {
     if (createdBy === userId) {
       dispatch(deletePost(_id));
     } else {
-      console.log('Get the fuck out');
+      setMessage("You can't delete post");
     }
   };
 
   const handleChangeUpdate = () => {
-    editMode(true, _id);
+    if (createdBy === userId) {
+      editMode(true, _id);
+    } else {
+      setMessage("You can't update post");
+    }
   };
+
+  useEffect(() => {
+    let message = setTimeout(() => {
+      setMessage('');
+    }, 1000);
+    return () => {
+      clearTimeout(message);
+    };
+  }, [message]);
 
   return (
     <Wrapper>
+      <h4 className='warningMessage'>
+        {message && <Alert alertMessage={message} />}
+      </h4>
       <div className='btns'>
         <button className='updateBtn' onClick={handleChangeUpdate}>
           Edit Workout
@@ -71,6 +92,7 @@ const Card = ({
                 })
               : trainerTips}
           </ul>
+          <h2>Created By {userCreator ? userCreator : 'Anonym'}</h2>
         </div>
       </div>
     </Wrapper>

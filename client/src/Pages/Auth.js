@@ -10,6 +10,8 @@ import { registerUser, signIn } from './../redux/actions/actions';
 
 import { useNavigate } from 'react-router-dom';
 
+import { CLEAR_MESSAGE } from '../redux/constants/actionTypes';
+
 const Auth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,21 +25,17 @@ const Auth = () => {
   const [isSignup, setIsSignup] = useState(false);
 
   const [confirmedPasswordMatch, setConfirmedPasswordMatch] = useState(true);
-  const [duplicateUser, setDuplicateUser] = useState(true);
-
-  // console.log(typeof toString(alertMessage));
-
-  console.log(isSignup);
+  const [duplicateUser, setDuplicateUser] = useState(false);
 
   if (password.length < 6) {
-    alertMessage = ' Passwords must be at least 6 characters long';
+    alertMessage = 'Password must be at least 6 characters long';
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (toString(alertMessage).localeCompare('User Already exists.')) {
-      setDuplicateUser(false);
+      setDuplicateUser(true);
     }
 
     if (password !== confirmPassword) {
@@ -51,6 +49,7 @@ const Auth = () => {
         registerUser({ name, email, password, confirmPassword }, navigate)
       );
     } else {
+      dispatch({ type: CLEAR_MESSAGE });
       dispatch(signIn({ email, password }, navigate));
     }
   };
@@ -62,16 +61,19 @@ const Auth = () => {
   useEffect(() => {
     let timer = setTimeout(() => {
       setConfirmedPasswordMatch(true);
-      setDuplicateUser(true);
+      setDuplicateUser(false);
     }, 3000);
     return () => {
       clearTimeout(timer);
     };
   }, [confirmedPasswordMatch, duplicateUser]);
 
+  console.log({ confirmedPasswordMatch });
+  console.log({ duplicateUser });
+
   return (
     <Wrapper>
-      {(!confirmedPasswordMatch || !duplicateUser) && (
+      {(!confirmedPasswordMatch || duplicateUser) && (
         <Alert alertMessage={alertMessage} />
       )}
       <h1>Auth</h1>

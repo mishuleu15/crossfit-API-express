@@ -6,7 +6,7 @@ import AddWorkout from './components/AddWorkout';
 import Wrapper from './assets/wrappers/Home';
 
 import { useDispatch } from 'react-redux';
-import { getPosts } from './redux/actions/actions';
+import { getPosts, getUsers } from './redux/actions/actions';
 
 const Home = () => {
   const userLoggedIn = JSON.parse(localStorage.getItem('user'));
@@ -31,6 +31,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getPosts());
+    dispatch(getUsers());
   }, [dispatch]);
 
   return (

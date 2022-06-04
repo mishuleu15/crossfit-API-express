@@ -3,12 +3,14 @@ import {
   FETCH_ALL_SUCCESS,
   FETCH_ALL_FAIL,
   FETCH_ALL,
+  FETCH_ALL_USERS,
   CREATE,
   UPDATE,
   DELETE,
   REGISTER,
   LOGOUT_USER,
   SIGN_UP_ERROR,
+  CLEAR_MESSAGE,
 } from '../constants/actionTypes';
 import axios from 'axios';
 
@@ -23,7 +25,6 @@ const removeUserFromLocalStorage = () => {
 };
 
 export const getPosts = () => async (dispatch) => {
-  console.log('wtf');
   try {
     const { data } = await axios.get('http://localhost:3001/api/v1/workouts');
 
@@ -34,7 +35,7 @@ export const getPosts = () => async (dispatch) => {
 };
 
 export const createPost = (post) => async (dispatch) => {
-  const { equipment, exercises, mode, name, trainerTips } = post;
+  const { equipment, exercises, mode, name, trainerTips, userCreator } = post;
   const token = localStorage.getItem('token');
 
   let config = {
@@ -53,6 +54,7 @@ export const createPost = (post) => async (dispatch) => {
         mode,
         name,
         trainerTips,
+        userCreator,
       },
       config
     );
@@ -95,7 +97,7 @@ export const registerUser = (user, navigate) => async (dispatch) => {
   try {
     const {
       data: { data },
-    } = await axios.post(`http://localhost:3001/api/v1/auth`, {
+    } = await axios.post(`http://localhost:3001/api/v1/auth/register`, {
       name,
       email,
       password,
@@ -108,6 +110,7 @@ export const registerUser = (user, navigate) => async (dispatch) => {
 
     dispatch({ type: REGISTER, payload: data });
   } catch (error) {
+    console.log(error.response.data.message);
     dispatch({ type: SIGN_UP_ERROR, payload: error.response.data.message });
   }
 };
@@ -124,10 +127,20 @@ export const signIn = (user, navigate) => async (dispatch) => {
 
     addUserToLocalStorage({ user, token });
     navigate('/');
-
     dispatch({ type: REGISTER, payload: data });
   } catch (error) {
-    console.log(error);
+    dispatch({ type: SIGN_UP_ERROR, payload: error.response.data.message });
+  }
+};
+
+export const getUsers = () => async (dispatch) => {
+  try {
+    const { data } = await axios.get('http://localhost:3001/api/v1/user');
+    console.log(data);
+
+    dispatch({ type: FETCH_ALL_USERS, payload: data });
+  } catch (error) {
+    console.log(error.message);
   }
 };
 

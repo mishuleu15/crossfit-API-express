@@ -11,6 +11,7 @@ const AddWorkout = ({ editModeOn, setEditModeOn, getId, setGetId }) => {
     equipment: '',
     exercises: '',
     trainerTips: '',
+    createdBy: '',
   });
 
   const workout = useSelector((state) =>
@@ -43,6 +44,7 @@ const AddWorkout = ({ editModeOn, setEditModeOn, getId, setGetId }) => {
       equipment: '',
       exercises: '',
       trainerTips: '',
+      userCreator: '',
     });
   };
 
@@ -121,6 +123,23 @@ const AddWorkout = ({ editModeOn, setEditModeOn, getId, setGetId }) => {
               setPostWorkout({
                 ...postWorkout,
                 trainerTips: e.target.value,
+              })
+            }
+          />
+        </label>
+        <label>
+          <p>Created By:</p>
+          <input
+            type='text'
+            className={
+              postWorkout?.userCreator?.length < 3 ? 'invalid' : 'valid'
+            }
+            value={postWorkout.userCreator || ''}
+            name='userCreator'
+            onChange={(e) =>
+              setPostWorkout({
+                ...postWorkout,
+                userCreator: e.target.value,
               })
             }
           />

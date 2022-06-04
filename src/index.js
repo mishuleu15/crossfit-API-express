@@ -1,6 +1,7 @@
 const express = require('express');
 const v1WorkoutRouter = require('./v1/routes/workoutRoutes');
 const v1AuthRouter = require('./v1/routes/authRoutes');
+const v1UserRouter = require('./v1/routes/userRoutes');
 const cors = require('cors');
 require('dotenv/config');
 const { swaggerDocs: V1SwaggerDocs } = require('./v1/swagger');
@@ -22,6 +23,7 @@ app.use(express.json());
 
 app.use('/api/v1/workouts', v1WorkoutRouter);
 app.use('/api/v1/auth', v1AuthRouter);
+app.use('/api/v1/user', v1UserRouter);
 
 const start = async () => {
   try {

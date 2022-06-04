@@ -8,7 +8,7 @@ const Wrapper = styled.section`
   -webkit-backdrop-filter: blur(7.8px);
 
   padding: 4rem;
-  height: 40rem;
+  height: 50rem;
   margin: 4rem auto;
 
   form label input[type='text'] {
@@ -19,6 +19,10 @@ const Wrapper = styled.section`
 
   form label input[type='text']:focus {
     outline: none;
+  }
+
+  form label input:last-child {
+    margin-bottom: 1rem;
   }
 
   .valid {
