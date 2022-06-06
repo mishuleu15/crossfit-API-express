@@ -10,7 +10,7 @@ import {
   REGISTER,
   LOGOUT_USER,
   SIGN_UP_ERROR,
-  CLEAR_MESSAGE,
+  SEARCH,
 } from '../constants/actionTypes';
 import axios from 'axios';
 
@@ -29,6 +29,18 @@ export const getPosts = () => async (dispatch) => {
     const { data } = await axios.get('http://localhost:3001/api/v1/workouts');
 
     dispatch({ type: FETCH_ALL, payload: data });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const filterPosts = (value) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(
+      `http://localhost:3001/api/v1/workouts/search?searchQuery=${value}`
+    );
+
+    dispatch({ type: SEARCH, payload: data });
   } catch (error) {
     console.log(error.message);
   }

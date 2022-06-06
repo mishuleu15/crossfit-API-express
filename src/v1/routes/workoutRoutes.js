@@ -5,6 +5,7 @@ const authenticateUser = require('../../middleware/auth.js');
 
 const {
   getAllWorkouts,
+  getWorkoutsBySearch,
   getOneWorkout,
   createNewWorkout,
   updateOneWorkout,
@@ -60,6 +61,7 @@ const cache = apicache.middleware;
  *                       type: string
  *                       example: "Some error message"
  */
+router.get('/search', getWorkoutsBySearch);
 
 router.get('/', getAllWorkouts);
 

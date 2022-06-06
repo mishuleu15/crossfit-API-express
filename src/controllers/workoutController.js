@@ -3,7 +3,23 @@ const Training = require('../models/Training');
 const getAllWorkouts = async (req, res) => {
   try {
     const workouts = await Training.find();
+
     res.status(200).json(workouts);
+  } catch (error) {
+    res
+      .status(error?.status || 500)
+      .send({ status: 'FAILED', data: { error: error?.message || error } });
+  }
+};
+
+const getWorkoutsBySearch = async (req, res) => {
+  const { searchQuery } = req.query;
+
+  const title = new RegExp(searchQuery, 'i');
+
+  const workouts = await Training.find({ name: title });
+  res.status(200).json(workouts);
+  try {
   } catch (error) {
     res
       .status(error?.status || 500)
@@ -108,6 +124,7 @@ const deleteOneWorkout = async (req, res) => {
 
 module.exports = {
   getAllWorkouts,
+  getWorkoutsBySearch,
   getOneWorkout,
   createNewWorkout,
   updateOneWorkout,

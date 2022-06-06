@@ -35,7 +35,7 @@ const Card = ({
     if (createdBy === userId) {
       editMode(true, _id);
     } else {
-      setMessage("You can't update post");
+      setMessage("You can't edit post");
     }
   };
 
