@@ -11,6 +11,8 @@ import {
   LOGOUT_USER,
   SIGN_UP_ERROR,
   SEARCH,
+  SHOW_FORM,
+  HIDE_FORM,
 } from '../constants/actionTypes';
 import axios from 'axios';
 
@@ -159,4 +161,12 @@ export const getUsers = () => async (dispatch) => {
 export const logoutUser = () => async (dispatch) => {
   dispatch({ type: LOGOUT_USER });
   removeUserFromLocalStorage();
+};
+
+export const showForm = (mobileBtn) => async (dispatch) => {
+  dispatch({ type: SHOW_FORM, payload: mobileBtn });
+};
+
+export const hideForm = (mobileBtn) => async (dispatch) => {
+  dispatch({ type: HIDE_FORM, payload: mobileBtn });
 };

@@ -21,6 +21,7 @@ const Wrapper = styled.section`
   .container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
   .logoContainer {
     cursor: pointer;
@@ -61,6 +62,7 @@ const Wrapper = styled.section`
 
   button {
     background-color: #2f4f4f;
+    height: 4rem;
     color: #fff;
     font-size: 1rem;
     font-weight: bold;
@@ -82,6 +84,76 @@ const Wrapper = styled.section`
   button:active {
     transform: translateY(1px);
     box-shadow: 0px 5px 5px #888888;
+  }
+
+  .searchInputContainer {
+    display: flex;
+    align-items: center;
+  }
+
+  input {
+    width: 16rem;
+    height: 50%;
+  }
+
+  .btnSearch {
+    height: 2rem;
+
+    margin-left: 1rem;
+    font-size: 15px;
+  }
+
+  .btnMobile {
+    display: none;
+  }
+
+  @media (max-width: 941px) {
+    .logoContainer {
+      display: flex;
+      flex-direction: column;
+      margin-right: 1rem;
+    }
+    .first {
+      padding: 2.5px;
+      font-size: 1rem;
+      border-radius: 5px 5px 0px 0px;
+    }
+
+    .second {
+      padding: 1px 6px;
+      font-size: 1rem;
+      text-align: center;
+      margin: auto;
+      border-radius: 0px 0px 5px 5px;
+    }
+  }
+
+  @media (max-width: 863px) {
+    .user {
+      display: none;
+    }
+
+    .btnMobile {
+      display: block;
+    }
+
+    .btnMobile button {
+      font-size: 12px;
+      cursor: pointer;
+      height: 2rem;
+    }
+    .searchInputContainer {
+      flex-direction: column;
+    }
+    input {
+      margin-bottom: 0.2rem;
+    }
+
+    .btnSearch {
+      height: 2rem;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
   }
 `;
 

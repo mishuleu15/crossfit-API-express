@@ -1,11 +1,13 @@
-import { FETCH_ALL_USERS } from '../constants/actionTypes';
+import { SHOW_FORM, HIDE_FORM } from '../constants/actionTypes';
 
-const authReducer = (users = [], action) => {
+const authReducer = (state = { mobileBtn: false }, action) => {
   switch (action.type) {
-    case FETCH_ALL_USERS:
-      return action.payload;
+    case SHOW_FORM:
+      return { ...state, mobileBtn: action.payload };
+    case HIDE_FORM:
+      return { ...state, mobileBtn: action.payload };
     default:
-      return users;
+      return state;
   }
 };
 

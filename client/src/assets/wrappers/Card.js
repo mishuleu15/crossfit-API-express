@@ -102,6 +102,11 @@ const Wrapper = styled.section`
     margin: 0 auto;
     padding: 0.5rem;
   }
+
+  @media (max-width: 941px) {
+    width: 100%;
+    margin: 0 auto;
+  }
 `;
 
 export default Wrapper;

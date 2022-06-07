@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Wrapper from '../assets/wrappers/NavBar';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
-import { useDispatch } from 'react-redux';
-import { logoutUser } from '../redux/actions/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser, showForm, hideForm } from '../redux/actions/actions';
 
 import { filterPosts, getPosts } from '../redux/actions/actions';
 
 const Navbar = () => {
+  const showFormTxt = useSelector((state) => state.users.mobileBtn);
   const [query, setQuery] = useState('');
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
   const [token, setToken] = useState(JSON.parse(localStorage.getItem('user')));
@@ -41,6 +42,14 @@ const Navbar = () => {
     }
   }
 
+  function toggleBtn() {
+    if (showFormTxt === true) {
+      dispatch(hideForm(false));
+    } else {
+      dispatch(showForm(true));
+    }
+  }
+
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('user')));
     setToken(JSON.parse(localStorage.getItem('user')));
@@ -55,13 +64,15 @@ const Navbar = () => {
             <span className='second'>Planner</span>
           </h2>
         </Link>
-        <div>
+        <div className='searchInputContainer'>
           <input
             placeholder='Enter Post Title'
             onKeyDown={handleKeyPress}
             onChange={(event) => setQuery(event.target.value)}
           />
-          <button onClick={searchPost}>Search</button>
+          <button className='btnSearch' onClick={searchPost}>
+            Search
+          </button>
         </div>
         {user ? (
           <div className='user'>
@@ -73,6 +84,9 @@ const Navbar = () => {
             <button>Sign Up</button>
           </Link>
         )}
+        <div className='btnMobile'>
+          <button onClick={toggleBtn}>{showFormTxt ? 'Hide' : 'Show'}</button>
+        </div>
       </div>
     </Wrapper>
   );

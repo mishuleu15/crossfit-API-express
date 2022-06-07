@@ -16,6 +16,13 @@ const Wrapper = styled.section`
     color: #f0fff0;
     margin-bottom: 4rem;
   }
+  @media (max-width: 941px) {
+    .container {
+      grid-template-columns: 1fr;
+      width: 95%;
+      margin: 0 auto;
+    }
+  }
 `;
 
 export default Wrapper;
