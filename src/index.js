@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const v1WorkoutRouter = require('./v1/routes/workoutRoutes');
 const v1AuthRouter = require('./v1/routes/authRoutes');
 const v1UserRouter = require('./v1/routes/userRoutes');
@@ -11,6 +12,8 @@ const PORT = process.env.PORT || 3001;
 
 // db and authenticateUser
 const connectDB = require('../src/db/connect');
+
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 app.use(cors());
 
