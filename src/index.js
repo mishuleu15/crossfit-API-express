@@ -14,15 +14,15 @@ const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 
-app.get('/', (req, res) => {
-  res.send('Welcome to CrossFit API');
-});
-
 app.use(express.json());
 
 app.use('/api/v1/workouts', v1WorkoutRouter);
 app.use('/api/v1/auth', v1AuthRouter);
 app.use('/api/v1/user', v1UserRouter);
+
+app.get('/', (req, res) => {
+  res.send('Welcome to CrossFit API');
+});
 
 const start = async () => {
   try {

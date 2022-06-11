@@ -19,9 +19,8 @@ router.get('/search', getWorkoutsBySearch);
 
 router.get('/', getAllWorkouts);
 
-router.get('/:workoutId', getOneWorkout);
-
 router.post('/', authenticateUser, createNewWorkout);
+router.get('/:workoutId', getOneWorkout);
 
 router.patch('/:workoutId', updateOneWorkout);
 
