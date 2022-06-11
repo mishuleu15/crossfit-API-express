@@ -1,13 +1,11 @@
 import {
-  FETCH_ALL_REQUEST,
-  FETCH_ALL_SUCCESS,
-  FETCH_ALL_FAIL,
   FETCH_ALL,
   FETCH_ALL_USERS,
   CREATE,
   UPDATE,
   DELETE,
   REGISTER,
+  SIGN_IN,
   LOGOUT_USER,
   SIGN_UP_ERROR,
   SEARCH,
@@ -141,7 +139,7 @@ export const signIn = (user, navigate) => async (dispatch) => {
 
     addUserToLocalStorage({ user, token });
     navigate('/');
-    dispatch({ type: REGISTER, payload: data });
+    dispatch({ type: SIGN_IN, payload: data });
   } catch (error) {
     dispatch({ type: SIGN_UP_ERROR, payload: error.response.data.message });
   }
@@ -150,7 +148,6 @@ export const signIn = (user, navigate) => async (dispatch) => {
 export const getUsers = () => async (dispatch) => {
   try {
     const { data } = await axios.get('http://localhost:3001/api/v1/user');
-    console.log(data);
 
     dispatch({ type: FETCH_ALL_USERS, payload: data });
   } catch (error) {

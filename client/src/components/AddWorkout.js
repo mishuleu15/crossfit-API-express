@@ -19,8 +19,6 @@ const AddWorkout = ({ editModeOn, setEditModeOn, getId, setGetId }) => {
   );
   const showForm = useSelector((state) => state.users.mobileBtn);
 
-  console.log(showForm);
-
   useEffect(() => {
     if (workout) setPostWorkout(workout);
   }, [workout]);

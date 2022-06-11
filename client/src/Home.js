@@ -5,10 +5,13 @@ import AddWorkout from './components/AddWorkout';
 
 import Wrapper from './assets/wrappers/Home';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getPosts, getUsers } from './redux/actions/actions';
 
+import { SpinnerCircularSplit } from 'spinners-react';
+
 const Home = () => {
+  const workouts = useSelector((state) => state.workouts);
   const userLoggedIn = JSON.parse(localStorage.getItem('user'));
 
   const dispatch = useDispatch();
@@ -37,6 +40,11 @@ const Home = () => {
   return (
     <Wrapper>
       <h1>CrossFit Workout of the Day</h1>
+      <div className='spinner'>
+        {workouts.length === 0 && (
+          <SpinnerCircularSplit size={200} className='spinner' />
+        )}
+      </div>
 
       <div
         className={userLoggedIn ? 'container' : 'containerAfterLogged'}

@@ -63,6 +63,10 @@ const Wrapper = styled.section`
       display: none;
     }
   }
+  @media (max-width: 281px) {
+    width: 95%;
+    margin: 0 auto;
+  }
 `;
 
 export default Wrapper;

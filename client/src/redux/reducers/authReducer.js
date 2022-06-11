@@ -1,5 +1,6 @@
 import {
   REGISTER,
+  SIGN_IN,
   LOGOUT_USER,
   SIGN_UP_ERROR,
   CLEAR_MESSAGE,
@@ -8,6 +9,8 @@ import {
 const authReducer = (state = { message: {} }, action) => {
   switch (action.type) {
     case REGISTER:
+      return { ...state, authData: action?.data };
+    case SIGN_IN:
       return { ...state, authData: action?.data };
     case SIGN_UP_ERROR:
       return { ...state, message: action.payload };

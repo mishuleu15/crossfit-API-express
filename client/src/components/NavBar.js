@@ -74,18 +74,27 @@ const Navbar = () => {
             Search
           </button>
         </div>
-        {user ? (
-          <div className='user'>
-            <h3>{user?.name}</h3>
-            <button onClick={logout}>Logout</button>
-          </div>
-        ) : (
-          <Link to='/auth' style={{ textDecoration: 'none', display: 'flex' }}>
-            <button>Sign Up</button>
-          </Link>
-        )}
-        <div className='btnMobile'>
-          <button onClick={toggleBtn}>{showFormTxt ? 'Hide' : 'Show'}</button>
+        <div className='btns-container'>
+          {user ? (
+            <div className='user'>
+              <h3>{user?.name}</h3>
+              <button onClick={logout}>Logout</button>
+            </div>
+          ) : (
+            <Link
+              to='/auth'
+              style={{ textDecoration: 'none', display: 'flex' }}
+            >
+              <button>Sign Up</button>
+            </Link>
+          )}
+          {user && (
+            <div className='btnMobile'>
+              <button onClick={toggleBtn}>
+                {showFormTxt ? 'Hide' : 'Show'}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </Wrapper>

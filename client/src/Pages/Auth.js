@@ -68,9 +68,6 @@ const Auth = () => {
     };
   }, [confirmedPasswordMatch, duplicateUser]);
 
-  console.log({ confirmedPasswordMatch });
-  console.log({ duplicateUser });
-
   return (
     <Wrapper>
       {(!confirmedPasswordMatch || duplicateUser) && (

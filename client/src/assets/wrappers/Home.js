@@ -10,16 +10,21 @@ const Wrapper = styled.section`
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
+
+  .spinner {
+    text-align: center;
+  }
   h1 {
     font-size: 2rem;
     text-align: center;
     color: #f0fff0;
     margin-bottom: 4rem;
   }
+
   @media (max-width: 941px) {
     .container {
       grid-template-columns: 1fr;
-      width: 95%;
+      width: 100%;
       margin: 0 auto;
     }
   }

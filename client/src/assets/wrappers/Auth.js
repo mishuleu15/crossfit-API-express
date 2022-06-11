@@ -72,6 +72,22 @@ const Wrapper = styled.section`
     color: black;
     text-transform: capitalize;
   }
+  @media (max-width: 1250px) {
+    width: 35%;
+  }
+
+  @media (max-width: 970px) {
+    width: 45%;
+  }
+
+  @media (max-width: 745px) {
+    width: 65%;
+  }
+
+  @media (max-width: 281px) {
+    width: 95%;
+    margin: 0 auto;
+  }
 `;
 
 export default Wrapper;

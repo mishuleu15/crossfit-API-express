@@ -31,6 +31,7 @@ const Wrapper = styled.section`
 
   .container ul li {
     list-style: none;
+    text-align: left;
   }
 
   .section {
@@ -39,15 +40,14 @@ const Wrapper = styled.section`
     padding: 0.5rem;
   }
 
-  .section > h2 {
-    text-align: start;
+  .section h2 {
+    text-align: left;
     color: #778899;
   }
 
   .section ul {
     text-align: start;
     width: 13rem;
-    margin: 0 auto;
     padding: 0%;
   }
 
@@ -106,6 +106,8 @@ const Wrapper = styled.section`
   @media (max-width: 941px) {
     width: 100%;
     margin: 0 auto;
+  }
+  @media (max-width: 863px) {
   }
 `;
 

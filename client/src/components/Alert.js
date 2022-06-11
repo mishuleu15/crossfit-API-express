@@ -6,7 +6,7 @@ const Alert = ({ alertMessage }) => {
   }
 
   return (
-    <Wrapper>
+    <Wrapper style={alertMessage ? { display: 'block' } : { display: 'none' }}>
       <p>{alertMessage}</p>
     </Wrapper>
   );

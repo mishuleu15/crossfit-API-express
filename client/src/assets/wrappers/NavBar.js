@@ -8,7 +8,7 @@ const Wrapper = styled.section`
   backdrop-filter: blur(7.8px);
   -webkit-backdrop-filter: blur(7.8px);
   position: relative;
-  /* top: -5rem; */
+  top: -5rem;
   padding: 1rem;
   z-index: 20;
   border-radius: 0 0 15px 15px;
@@ -130,7 +130,19 @@ const Wrapper = styled.section`
 
   @media (max-width: 863px) {
     .user {
+      margin-left: -8rem;
+    }
+    .user h3 {
       display: none;
+    }
+
+    .user button {
+      position: relative;
+      top: -2.3rem;
+      left: 8rem;
+      font-size: 12px;
+      height: 2rem;
+      margin-left: 1rem;
     }
 
     .btnMobile {
@@ -153,6 +165,100 @@ const Wrapper = styled.section`
       height: 2rem;
       font-size: 12px;
       letter-spacing: 1px;
+    }
+
+    .btns-container {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 581px) {
+    .user button {
+      margin-left: 1rem;
+    }
+    input {
+      margin-right: 1rem;
+    }
+  }
+
+  @media (max-width: 554px) {
+    input {
+      width: 10rem;
+    }
+  }
+
+  @media (max-width: 461px) {
+    .btns-container {
+      margin-left: -20px;
+    }
+  }
+
+  @media (max-width: 445px) {
+    .btns-container button {
+      margin-left: 1rem;
+    }
+    .btnMobile button {
+      margin-left: 0rem;
+    }
+  }
+
+  @media (max-width: 428px) {
+    input {
+      width: 10rem;
+
+      margin-right: 0.25rem;
+    }
+  }
+
+  @media (max-width: 415px) {
+    .btnSearch {
+      margin-left: 1rem;
+    }
+
+    input {
+      width: 7rem;
+    }
+
+    .btns-container button {
+      margin-left: 1rem;
+    }
+  }
+
+  @media (max-width: 376px) {
+    .btnMobile button {
+      margin: 0 auto;
+    }
+
+    .user button {
+      margin-left: -12px;
+    }
+
+    .btns-container {
+      margin-top: 25px;
+      margin-right: 25px;
+  }
+    .searchInputContainer {
+      margin-left: -15px;
+    }
+
+    .logoContainer {
+      display: none;
+    }
+  }
+
+  @media (max-width: 361px) {
+    .logoContainer {
+      display: none;
+    }
+
+    .btns-container {
+      margin-top: 25px;
+      margin-right: 25px;
+  }
+
+  @media (max-width: 280px) {
+    .logoContainer {
+      display: none;
     }
   }
 `;

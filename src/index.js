@@ -4,7 +4,6 @@ const v1AuthRouter = require('./v1/routes/authRoutes');
 const v1UserRouter = require('./v1/routes/userRoutes');
 const cors = require('cors');
 require('dotenv/config');
-const { swaggerDocs: V1SwaggerDocs } = require('./v1/swagger');
 
 const app = express();
 
@@ -16,7 +15,7 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 
 app.get('/', (req, res) => {
-  res.send("<h2>It's Working!</h2>");
+  res.send('Welcome to CrossFit API');
 });
 
 app.use(express.json());
