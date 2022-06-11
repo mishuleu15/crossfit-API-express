@@ -4,14 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "devs": "nodemon ./src/index.js",
-    "build-client": "cd client && npm run build",
-    "dev": "react-scripts start",
-    "start": "serve -s build",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "heroku-postbuild": "npm run build"
+    "start": "node src/index.js",
+    "dev": "nodemon ./src/index.js",
+    "build-client": "cd client && npm run build"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +29,6 @@
     "validator": "^13.7.0"
   },
   "engines": {
-    "node": "16.10.0"
+    "node": "6.11.1"
   }
 }
